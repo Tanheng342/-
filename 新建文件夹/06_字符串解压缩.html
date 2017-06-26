@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="text" id="inp1">
+    <input type="button" id="btn" value="解压缩">
+    <input type="text" id="inp2">
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            // 获取第一个输入框
+            var inp1 = document.getElementById('inp1');
+            // 获取待解压的字符串
+            var str = inp1.value;
+
+            // 解压:
+            //  "a3b14c6" --> "aaabbbbcccccc"
+            // char : "a"
+            // num : ""
+            // result : ""
+            // 定义几个变量
+            var char = str.charAt(0); // 用于存放待解压的字符
+            var num = ""; // 用于存放数量, 类型定义为字符串
+            var result = ""; // 用于存放解压的结果
+            for(var i = 1; i < str.length; i++){
+                // 获取第i个字符串的编码
+                var code = str.charCodeAt(i);
+                // 判断是否是数字
+                if(48 <= code && code <= 57){
+                    num += str.charAt(i); // 更新数量 
+                } else {
+                    // 解压前面那个字符
+                    var n = parseInt(num);
+                    for(var j = 0; j < n; j++){
+                        result += char;
+                    }
+                    // 更新带解压的字符及num
+                    char = str.charAt(i);
+                    num = "";
+                }
+            }
+
+            // 循环结束之后, 再将最后一个字符解压
+            var n = parseInt(num);
+            for(var j = 0; j < n; j++){
+                result += char;
+            }
+
+            // 将结果放到第二个输入框
+            var inp2 = document.getElementById('inp2');
+            inp2.value = result;
+        };
+    </script>
+</body>
+</html>

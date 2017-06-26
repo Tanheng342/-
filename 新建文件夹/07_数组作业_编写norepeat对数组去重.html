@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        btn.onclick = function (){
+            var arr = [1,3,5,7,1,3,6,8,7];
+            var res = norepeat(arr);
+            console.log(res);
+            console.log(arr);
+        }
+
+        function norepeat(arr){
+            // [1,2,3]
+            // 1,2,3,1
+            var result = [];
+            // 遍历原来数组当中的数, 看看有没有重复的, 有就去掉
+            for(var i = 0; i < arr.length; i++){
+                if(result.indexOf(arr[i]) == -1){
+                    result.push(arr[i]);
+                }
+            }
+
+            // 返回结果数组
+            return result;
+        }
+    </script>
+</body>
+</html>

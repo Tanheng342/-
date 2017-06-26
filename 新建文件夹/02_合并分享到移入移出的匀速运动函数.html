@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {margin: 0;padding: 0;}
+        #shareTo {
+            width: 150px; height: 300px;
+            background: #CCC;
+            position: absolute; left: -150px; top: 200px;
+        }
+        #shareTo span{
+            display : block;
+            width: 30px; height: 150px;
+            position: absolute; left: 150px; top: 75px;
+            background: yellow;
+            font-size: 30px;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="shareTo"><span>分享到</span></div>
+    <script>
+        window.onload = function (){
+            var sDiv = document.getElementById('shareTo');
+            sDiv.onmouseover = function (){
+                move(0);
+            };
+
+            sDiv.onmouseout = function (){
+                move(-150);
+            };
+
+            // 封装一个函数用于运动
+            var timer;
+            function move(dest){
+                clearInterval(timer);
+                timer = setInterval(function (){
+                    var sDiv = document.getElementById('shareTo');
+                    // 生成一个速度
+                    if(sDiv.offsetLeft < dest){
+                        var speed = 7;
+                    } else {
+                        var speed = -7;
+                    }
+
+                    // 判断是否到达终点
+                    // 匀速的终点判断需要调整为: 当物体离终点足够近的时候(剩余的距离不够一次指定速度运动时)停止
+                    if(Math.abs(sDiv.offsetLeft - dest) < Math.abs(speed)){
+                        clearInterval(timer);
+                        // 直接将剩余的距离补上, 即停止之后直接将物体放到终点
+                        sDiv.style.left = dest + "px";
+                        return;
+                    }
+
+                    sDiv.style.left = sDiv.offsetLeft + speed + "px";
+                }, 20);
+            }
+        };
+    </script>
+</body>
+</html>

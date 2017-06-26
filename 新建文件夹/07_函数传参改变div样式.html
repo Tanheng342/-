@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>test</title>
+        <style>
+            #div1 {
+                width: 200px; height: 200px;
+                background: #CCC;
+                font-size : 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="inp1"> <br><br>
+        <input type="text" id="inp2"> <br><br>
+        <input type="button" id="btn" value="确定">
+        <div id="div1">输入样式名和样式值, 改变此div的样式</div>
+        <script type="text/javascript">
+            window.onload = function (){
+                var btn = document.getElementById('btn');
+                btn.onclick = function (){
+                    var inp1 = document.getElementById('inp1');
+                    var inp2 = document.getElementById('inp2');
+                    changeStyle(inp1.value, inp2.value);
+                };
+            }
+
+            function changeStyle(property, value){
+                var div1 = document.getElementById('div1');
+                div1.style[property] = value; // div1.style['property']
+           }
+        </script>
+    </body>
+</html>

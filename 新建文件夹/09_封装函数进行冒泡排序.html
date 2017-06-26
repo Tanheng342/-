@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1. 给函数起一个见名知意的名称
+        // 2. 思考这个函数需不需要参数(需要的话有哪些参数)
+        // 3. 思考这个函数需不需要返回值
+        // 4. 编码去实现这个函数
+        // 5. (最重要) 测试&&修改
+        function bubbleSort(arr){
+            for(var i = 0; i < arr.length - 1;i++){ // 外层循环循环轮
+                for(var j = 0; j < arr.length - i - 1; j++){ // 内层循环循环次
+                    // 对于每一次, 需要将索引为j的元素和索引为j+1的元素作比较
+                    // 如果前一个比后一个大的话, 那么需要交换位置
+                    if(arr[j] > arr[j + 1]){
+                        var temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+        var arr = [9,8,6,7,5,4];
+        bubbleSort(arr);
+        console.log(arr);
+
+
+        function test(a){
+            a++;
+        }
+        var a = 1;
+        test(a);
+        console.log(a);// 1
+
+
+
+
+
+    </script>
+</body>
+</html>

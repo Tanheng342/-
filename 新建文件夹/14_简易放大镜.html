@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{padding: 0;margin: 0;}
+        ul {
+            list-style: none;
+            height: 172px; width: 768px;
+            margin : 100px auto;
+        }
+        ul li{
+            width: 170px; height: 170px;
+            border : 1px solid #CCC;
+            float:left;
+            margin : 0 10px;
+        }
+        #bigImg {
+            width: 402px;height: 402px;
+            position: absolute;
+            border : 1px solid #CCC;
+            display : none;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><img src="img/shirt_1.jpg" alt=""></li>
+        <li><img src="img/shirt_2.jpg" alt=""></li>
+        <li><img src="img/shirt_3.jpg" alt=""></li>
+        <li><img src="img/shirt_4.jpg" alt=""></li>
+    </ul>
+    <div id="bigImg"><img src="img/shirt_1_big.jpg" alt=""></div>
+    <script>
+        window.onload = function (){
+            var lis = $('li');
+            for(var i = 0; i < lis.length; i++){
+                lis[i].onmouseover = function (){
+                    var oldSrc = this.children[0].src;
+                    $('#bigImg').children[0].src = oldSrc.replace('.jpg', "_big.jpg");
+                    // 显示大图
+                    $('#bigImg').style.display = "block";
+                    console.log("over");
+                };
+                lis[i].onmouseout = function (){
+                    // 让大图消失
+                    $('#bigImg').style.display = "none";
+                    console.log("out");
+                };
+                lis[i].onmousemove = function (e){
+                    var evt = e || window.event;
+
+                    // 获取鼠标位置
+                    var x = evt.pageX;
+                    var y = evt.pageY;
+
+                    // 将大图移动到鼠标的位置
+                    $('#bigImg').style.left = x + 10 + "px";
+                    $('#bigImg').style.top = y + 10 + "px";
+                }
+            }
+        };
+
+        function $(selector, root){
+            if(!root){
+                root = document;
+            }
+            var starter = selector.charAt(0); // 获取选择器的第一个字符
+            if(starter == "#"){
+                return document.getElementById(selector.substring(1));
+            } else if(starter == "."){
+                return root.getElementsByClassName(selector.substring(1));
+            } else {
+                return root.getElementsByTagName(selector);
+            }
+        }
+    </script>
+</body>
+</html>

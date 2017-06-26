@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>三级区划</title>
+</head>
+<body>
+    <input type="button" id="btn" value="加载数据">
+    <select id="provSel">
+        <option>请选择省份</option>
+    </select>
+    <select id="citySel">
+        <option>请选择地市</option>
+    </select>
+    <select id="countySel">
+        <option>请选择区县</option>
+    </select>
+
+    <script src="ajax.js"></script>
+    <script>
+        window.onload = function (){
+            /*
+                {
+                    "regions" : [
+                        {
+                            "name" : "山西",
+                            "regions" : [
+                                {
+                                    "name" : "太原市",
+                                    "regions" : [
+                                        {
+                                            "name" : "迎泽区"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            */
+            var allData = null;
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                ajax("GET", "allCity.json", null, function (data){
+                    allData = JSON.parse(data);
+                    loadProvince(); // 调用, 加载省份
+                });
+            };
+
+            // 写一个函数用于加载第一个select框的所有省份信息
+            function loadProvince(){
+                // 通过整个数据的regions属性获取存放所有省份的数组
+                var provs = allData.regions;
+                // 获取第一个select框
+                var sele1 = document.getElementById('provSel');
+                sele1.innerHTML = "<option>请选择省份</option>";
+                // 遍历这一整个数组
+                for(var i = 0; i < provs.length; i++){
+                    // 每一个省份都是一个对象, 对象的name属性就是每一个省份的名称
+                    var provName = provs[i].name;
+                    // 创建option标签
+                    var opt = document.createElement('option');
+                    opt.innerHTML = provName;
+                    // 将option标签放到select框中去
+                    sele1.appendChild(opt);
+                }
+
+                // 给第一个框添加onchange事件, 在其中内容(选项)发生改变时触发
+                sele1.onchange = function (){
+                    // console.log(this.value);
+                    loadCity(this.value);
+                };
+
+            }
+
+            // 写一个函数用于加载地市
+            function loadCity(prov){
+                // 获取第二个地市选择框
+                var sele2 = document.getElementById('citySel');
+                // 从所有数据里面获取到所有省份的数组
+                var provs = allData.regions;
+                // 遍历所有省份, 找出要加载其地市的那个
+                for(var i = 0; i < provs.length; i++){
+                    // 获取省份名
+                    var provName = provs[i].name;
+                    // 判断出要加载地市的省份, 加载其地市
+                    if(provName == prov){
+                        // 获取该省份下存放所有地市数据的数组
+                        var cities = provs[i].regions;
+                        // 遍历所有地市, 加载其名称
+                        sele2.innerHTML = "<option>请选择地市</option>";
+                        for(var j = 0; j < cities.length; j++){
+                            // 得到地市名
+                            var cityName = cities[j].name;
+                            // 创建option标签
+                            var opt = document.createElement('option');
+                            opt.innerHTML = cityName;
+                            sele2.appendChild(opt);
+                        }
+                        // 加载完地市后跳出外层循环
+                        break;
+                    }
+                }
+
+                // 给第二个输入框添加change事件
+                sele2.onchange = function (){
+                    // console.log(prov + "," + this.value);
+                    loadCounty(prov, this.value);
+                };
+            }
+
+            // 写一个函数用于加载区县
+            function loadCounty(prov, city){
+                // 获取所有省份的数组
+                var provs = allData.regions;
+                // 获取第三个select框
+                var sele3 = document.getElementById('countySel');
+                // 遍历所有省份
+                for(var i = 0; i < provs.length; i++){
+                    if(provs[i].name == prov){
+                        // 遍历该省份下所有的地市
+                        var cities = provs[i].regions;
+                        for(var j = 0; j < cities.length; j++){
+                            if(cities[j].name == city){
+                                // 加载这个市下的所有区县
+                                var counties = cities[j].regions;
+                                // 遍历所有区县, 把信息加载出来
+                                sele3.innerHTML = "<option>请选择区县</option>";
+                                for(var k = 0; k < counties.length; k++){
+                                    // 获取到区县名
+                                    var countyName = counties[k].name;
+                                    // 创建option
+                                    var opt = document.createElement('option');
+                                    opt.innerHTML = countyName;
+                                    // 将option放到第三个select框中
+                                    sele3.appendChild(opt);
+                                }
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>

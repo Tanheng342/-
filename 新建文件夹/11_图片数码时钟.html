@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>test</title>
+		<style>
+			img {
+				width : 100px;
+			}
+			h1 {
+				display : inline-block;
+				font-size : 70px;
+				line-height : 100px;
+				margin : 0;
+				vertical-align:top;
+				color : darkred;
+			}
+		</style>
+	</head>
+	<body>
+		<img src="img/0.png" id="img1" />
+		<img src="img/0.png" id="img2" />
+		<h1>:</h1>
+		<img src="img/0.png" id="img3" />
+		<img src="img/0.png" id="img4" />
+		<h1>:</h1>
+		<img src="img/0.png" id="img5" />
+		<img src="img/0.png" id="img6" />
+
+		<script type="text/javascript">
+			window.onload = function (){
+				showTime();
+				setInterval(showTime, 1000);
+				function showTime(){
+					var now = new Date();
+
+					var h = now.getHours();
+					var m = now.getMinutes();
+					var s = now.getSeconds();
+
+					// 对时分秒做格式化的处理
+					h = adjust(h);  //"15"
+					m = m < 10 ? "0" + m : "" + m; // "52"
+					s = s < 10 ? "0" + s : "" + s; // "09"
+
+					// 15:52:09
+					// "img/1.png"
+					// var img1 = document.getElementById('img1');
+    	// 			var img2 = document.getElementById('img2');
+    	// 			var img3 = document.getElementById('img3');
+    	// 			var img4 = document.getElementById('img4');
+    	// 			var img5 = document.getElementById('img5');
+    	// 			var img6 = document.getElementById('img6');
+    				// 也可以使用getElementsByTagName统一获取到
+    				var imgs = document.getElementsByTagName('img');
+
+    				// 将时间转化到img标签的src属性上
+    				// imgs[0].src = "img/" + h.charAt(0) + ".png";
+    				// imgs[1].src = "img/" + h.charAt(1) + ".png";
+    				// imgs[2].src = "img/" + m.charAt(0) + ".png";
+    				// imgs[3].src = "img/" + m.charAt(1) + ".png";
+    				// imgs[4].src = "img/" + s.charAt(0) + ".png";
+    				// imgs[5].src = "img/" + s.charAt(1) + ".png";
+
+    				// h "16"
+    				// m "00"
+    				// s "02"
+    				var timeStr = h + m + s; // "160002"
+    				for(var i = 0; i < imgs.length; i++){
+    					imgs[i].src = "img/" + timeStr.charAt(i) + ".png";
+    				}
+				}
+
+				function adjust(v){
+					if(v < 10){
+						return "0" + v;
+					}
+					return "" + v;
+				}
+			}
+		</script>
+	</body>
+</html>

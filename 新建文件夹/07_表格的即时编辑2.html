@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>test</title>
+        <style>
+        </style>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td><span onclick="spanClick(this);">11</span></td>
+                <td><span onclick="spanClick(this);">22</span></td>
+                <td><span onclick="spanClick(this);">33</span></td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            function spanClick(dom){
+                dom.outerHTML = '<input type="text" onblur="inpBlur(this);" value="' + dom.innerHTML + '"/>';
+            }
+            function inpBlur(dom){
+                dom.outerHTML = '<span onclick="spanClick(this);">' + dom.value + '</span>';
+            }
+        </script>
+    </body>
+</html>

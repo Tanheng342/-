@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0
+			}
+			
+			ul {
+				width: 306px;
+				margin: 100px auto
+			}
+			
+			ul li {
+				list-style: none;
+				height: 100px;
+				width: 100px;
+				float: left;
+				margin-left: 2px;
+				margin-bottom: 2px;
+				text-align: center;
+				line-height: 100px;
+				font-size: 50px;
+				border-radius: 10px;
+			}
+			
+			ul li:nth-child(1) {
+				background: #ccd
+			}
+			
+			ul li:nth-child(2) {
+				background: #aff
+			}
+			
+			ul li:nth-child(3) {
+				background: #00f
+			}
+			
+			ul li:nth-child(4) {
+				background: #0ff
+			}
+			
+			ul li:nth-child(5) {
+				background: #caf
+			}
+			
+			ul li:nth-child(6) {
+				background: #0f0
+			}
+			
+			ul li:nth-child(7) {
+				background: #f00
+			}
+			
+			ul li:nth-child(8) {
+				background: #fdd
+			}
+			
+			ul li:nth-child(9) {
+				background: #ddf
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+		</ul>
+	</body>
+	<script type="text/javascript">
+		var lis = document.getElementsByTagName('li') //获取li
+
+		var arr = [];
+		var brr = [];
+		for(var i = 0; i < lis.length; i++) { // 获取 li没浮动 的 位置值
+			arr.push(lis[i].offsetLeft + 'px')
+			brr.push(lis[i].offsetTop + 'px')
+		}
+		for(var i = lis.length - 1; i >= 0; i--) { // 将没浮动的值赋给浮动位置 使其在原位
+			lis[i].style.left = lis[i].offsetLeft + 'px';
+			lis[i].style.top = lis[i].offsetTop + 'px';
+			lis[i].style.position = 'absolute';
+			lis[i].style.margin = '0'; //去除margin值
+			lis[i].index = i;
+			xid(lis[i])
+		}
+		var zIndex = 0;
+
+		function xid(dom) { //移动函数
+			dom.onmousedown = function(e) {
+				var evt = e || window.event;
+				var l = evt.offsetX;
+				var t = evt.offsetY;
+				var abc = null;
+				dom.style.zIndex = ++zIndex
+				document.onmousemove = function(e) {
+					var evt = e || window.event;
+					var x = evt.pageX - l;
+					var y = evt.pageY - t;
+					var maxx = document.documentElement.clientWidth - dom.offsetWidth;
+					if(x > maxx) { x = maxx } else if(x < 0) { x = 0 }
+
+					var maxy = document.documentElement.clientHeight - dom.offsetHeight;
+					if(y > maxy) { y = maxy } else if(y < 0) { y = 0 }
+					dom.style.left = x + 'px'
+					dom.style.top = y + 'px';
+					abc = zzz(dom); //调用 碰撞li函数 得到碰撞到的li
+
+					return false;
+				}
+				document.onmouseup = function() {
+					document.onmousemove = null;
+					document.onmouseup = null;
+					if(abc) { // 如果调用有值  移动的li与碰撞的li互换位置
+						abc.style.left = arr[dom.index];
+						abc.style.top = brr[dom.index];
+						dom.style.left = arr[abc.index];
+						dom.style.top = brr[abc.index];
+
+						var temp = abc.index; // 移动的li的下标与碰撞的li的下标互换位置
+						abc.index = dom.index;
+						dom.index = temp;
+
+					} else {
+						dom.style.left = arr[dom.index];
+						dom.style.top = brr[dom.index];
+					}
+
+				}
+			}
+		}
+
+		function zzz(dom) { //碰撞li函数
+			var min = 9999;
+			var index = -1;
+			for(var i = 0; i < lis.length; i++) {
+				if(dom === lis[i]) { //移动的li跳过
+					continue;
+				}
+				if(bz(dom, lis[i])) { //碰撞到li得到其下标
+					var distance = calcDistance(dom, lis[i])
+					if(distance < min) {
+						min = distance;
+						index = i;
+					}
+				}
+			}
+			if(index != -1) { //有碰到的返回这个li
+				return lis[index];
+			}
+			return null; //没有碰撞的返回空
+		}
+		// 定义一个函数, 用于计算两个div之间的距离
+		function calcDistance(dom1, dom2) {
+			// 计算第一个dom的中心的坐标
+			var centerLeft1 = dom1.offsetLeft + dom1.offsetWidth / 2;
+			var centerTop1 = dom1.offsetTop + dom1.offsetHeight / 2;
+
+			// 计算第二个dom的中心的坐标
+			var centerLeft2 = dom2.offsetLeft + dom2.offsetWidth / 2;
+			var centerTop2 = dom2.offsetTop + dom2.offsetHeight / 2;
+
+			// 计算两条直角边长度
+			var a = centerLeft1 - centerLeft2;
+			var b = centerTop1 - centerTop2;
+
+			// 斜边即两个div方块的距离
+			var c = Math.sqrt(a * a + b * b);
+			return c;
+		};
+
+		function bz(a, b) { //碰装函数
+			var t1 = a.offsetTop
+			var tt1 = t1 + a.offsetHeight;
+			var l1 = a.offsetLeft
+			var ll1 = l1 + a.offsetWidth;
+
+			var t2 = b.offsetTop
+			var tt2 = t2 + b.offsetHeight;
+			var l2 = b.offsetLeft
+			var ll2 = l2 + b.offsetWidth;
+
+			if(t1 > tt2 || tt1 < t2 || l1 > ll2 || ll1 < l2) {
+				return false;
+
+			} else {
+				return true;
+			}
+		}
+	</script>
+
+</html>

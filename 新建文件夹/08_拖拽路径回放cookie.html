@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px; height: 100px;
+            background: #f00;
+            position: absolute; left: 100px; top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" id="btn" value="回放">
+    <div id="div1"></div>
+
+    <script src="cookie.js"></script>
+    <script>
+        window.onload = function (){
+            $('#btn').onclick = function (){
+                // 取出cookie中锁存的坐标字符串
+                // "100,100:200,200:300,300"
+                var posStr = getCookie('position');
+                var posArr = posStr.split(":"); // ["100,100", "200,200"]
+                // 用定时器遍历得到的数组中的坐标
+                var i = 0;
+                var timer = setInterval(function (){
+                    var pos = posArr[i].split(','); // ["100", "100"]
+                    $('#div1').style.left = pos[0] + "px";
+                    $('#div1').style.top = pos[1] + "px";
+                    i++;
+                    if(i == posArr.length){
+                        clearInterval(timer);
+                    }
+                }, 30);
+            };
+
+            var div1 = $('#div1');
+            div1.onmousedown = function (e){
+                var evt = e || window.event;
+                var l = evt.offsetX;
+                var t = evt.offsetY;
+                // 在拖拽开始时, 将原来的坐标清除
+                removeCookie('position');
+                document.onmousemove = function (e){
+                    var evt = e || window.event;
+
+                    var toLeft = evt.pageX - l;
+                    var toTop = evt.pageY - t;
+
+                    div1.style.left = toLeft + "px";
+                    div1.style.top = toTop + "px";
+
+                    // JSON格式: JavaScript Object Notation
+                    // JSON指的是一个数据格式标准
+                    // 在js中JSON格式可以以数据(对象)形态或字符串形态存在
+                    // 只要数据有 数字, 字符串, 布尔值, 对象字面量, 数组以及null中的一个种或任意多种组成
+                    //  那么这个数据就符合JSON格式规范
+                    // 在语法上, JSON格式相对于JS更严格
+                    //   1. 对象的属性名必须用双引号引起来
+                    //   2. 字符串必须用双引号作为开始和结束
+                    //   3. 对象字面量最后一个键值对后面不能有逗号, 数组最后一个元素后面也不能有逗号
+                    // var obj = {
+                    //     "name" : {
+                    //         "name2" : "zhengrf"
+                    //     },
+                    //     "pos" : [1,2,3,4],
+                    //     "sex" : true
+                    // };
+                    // var num = 1;
+
+                    // var obj = {
+                    //     name : 123,
+                    //     sex : "male",
+                    //     age : false,
+                    //     arr : [1,2,3]
+                    // }
+                    // '{"name":123,"sec":"male","age":false,"arr":[1,2,3]}'
+
+                    // 全局对象JSON可以用于操作JSON字符串和js数据类型直接的转换
+                    var obj = {
+                        name : 123,
+                        sex : "male",
+                        age : false,
+                        arr : [1,2,3]
+                    }
+                    // JSON对象的stringify方法:
+                    // 参数:
+                    //   一个符合JSON规范的js数据
+                    // 返回值: JSON格式的字符串
+                    var res = JSON.stringify(obj);
+                    console.log(res);
+                    // JSON对象的parse方法:
+                    // 参数:
+                    //  一个JSON格式的字符串
+                    // 返回值:
+                    //  js的数据类型
+                    var res = JSON.parse(res);
+                    console.log(res);
+
+                    // "100,100:200,200:300,300"
+                    // 存在一个叫posistion的cookie中
+                    // 先获取到之前已经存过的坐标
+                    var posStr = getCookie('position'); // "100,100"
+                    // 拼好坐标字符串, 加到后面
+                    if(posStr){
+                        posStr += ":";
+                    }
+                    posStr += toLeft + "," + toTop;
+                    // 然后将新的坐标字符串存回cookie
+                    setCookie('position', posStr, 7);
+                }
+                document.onmouseup = function (e){
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                }
+                return false;
+            }
+
+        }
+
+        function $(selector, root){
+            if(!root){
+                root = document;
+            }
+            var starter = selector.charAt(0); // 获取选择器的第一个字符
+            if(starter == "#"){
+                return document.getElementById(selector.substring(1));
+            } else if(starter == "."){
+                return root.getElementsByClassName(selector.substring(1));
+            } else {
+                return root.getElementsByTagName(selector);
+            }
+        }
+    </script>
+</body>
+</html>

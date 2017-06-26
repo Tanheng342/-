@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	*{ margin: 0; padding: 0 }
+	ul { width: 306px;margin: 100px auto }
+	ul li { list-style: none; 
+            height: 100px;
+            width:100px ;
+            float: left;
+            
+            margin-left:2px;
+            margin-bottom:2px; 
+            text-align: center;
+            line-height: 100px;
+            font-size: 50px; 
+            border-radius: 10px;
+
+	}
+	ul li:nth-child(1){background:#ccd }
+    ul li:nth-child(2){background: #aff}
+    ul li:nth-child(3){background: #00f}
+    ul li:nth-child(4){background: #0ff}
+    ul li:nth-child(5){background: #caf}
+    ul li:nth-child(6){background: #0f0}
+	ul li:nth-child(7){background: #f00}
+    ul li:nth-child(8){background: #fdd}
+    ul li:nth-child(9){background: #ddf}
+	</style>
+</head>
+<body>
+<ul>
+	<li>1</li>
+	<li>2</li>
+	<li>3</li>
+	<li>4</li>
+	<li>5</li>
+	<li>6</li>
+	<li>7</li>
+	<li>8</li>
+	<li>9</li>
+</ul>
+</body>
+<script type="text/javascript">
+ var lis = document.getElementsByTagName('li');
+        for(var i = 0; i < lis.length; i++){
+            lis[i].style.left = lis[i].offsetLeft + "px";
+            lis[i].style.top = lis[i].offsetTop + "px";
+        }
+        for(var i = 0; i < lis.length; i++){
+            lis[i].style.position = "absolute";
+            lis[i].style.margin = "0";
+        }
+
+        var pArr = [];
+        for(var i = 0; i < lis.length; i++){
+            lis[i].index = i;
+            pArr.push({left:lis[i].offsetLeft, top:lis[i].offsetTop});
+            drag(lis[i]);
+        }
+
+        var zIndex = 1;
+        function drag(dom){
+            dom.onmousedown = function (e){
+                var evt = e || window.event;
+                var l = evt.offsetX;
+                var t = evt.offsetY;
+                var nearestli = null;
+                dom.style.zIndex = zIndex++;
+
+                document.onmousemove = function (e){
+                    var evt = e || window.event;
+
+                    var toLeft = evt.clientX - l;
+                    var toTop = evt.clientY - t;
+
+                    dom.style.left = toLeft + "px";
+                    dom.style.top = toTop + "px";
+
+                    nearestli = findNearest(dom);
+                }
+
+                document.onmouseup = function (){
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+
+                    if(nearestli){
+                        nearestli.style.left = pArr[dom.index].left + "px";
+                        nearestli.style.top = pArr[dom.index].top + "px";
+                        dom.style.left = pArr[nearestli.index].left + "px";
+                        dom.style.top = pArr[nearestli.index].top + "px";
+
+                        var temp = nearestli.index;
+                        nearestli.index = dom.index;
+                        dom.index = temp;
+                       
+                    }
+                };
+            }
+        }
+
+        function findNearest(dom){
+            var min = 999999;
+            var index = -1;
+            for(var i = 0; i < lis.length; i++){
+                if(dom === lis[i]){
+                    continue;
+                }
+                if(detectKnock(dom, lis[i])){
+                    var distance = calcDis(dom, lis[i]);
+                    if( distance < min){
+                        min = distance;
+                        index = i;
+                    }
+                }
+            }
+            if(index != -1){
+                return lis[index];
+            }
+            return null;
+        }
+
+        function calcDis(dom1, dom2){
+            var centerL1 = dom1.offsetLeft + dom1.offsetWidth / 2;
+            var centerT1 = dom1.offsetTop + dom1.offsetHeight / 2;
+
+            var centerL2 = dom2.offsetLeft + dom2.offsetWidth / 2;
+            var centerT2 = dom2.offsetTop + dom2.offsetHeight / 2;
+
+            var a = centerL2 - centerL1;
+            var b = centerT2 - centerT1;
+
+            return Math.sqrt(a*a + b*b);
+        }
+        function detectKnock(dom1, dom2){
+            var l1 = dom1.offsetLeft;
+            var t1 = dom1.offsetTop;
+            var r1 = l1 + dom1.offsetWidth;
+            var b1 = t1 + dom1.offsetHeight;
+
+            var l2 = dom2.offsetLeft;
+            var t2 = dom2.offsetTop;
+            var r2 = l2 + dom2.offsetWidth;
+            var b2 = t2 + dom2.offsetHeight;
+
+            if(l1 > r2 || t1 > b2 || r1 < l2 || b1 < t2){
+                return false;
+            }
+            return true;
+        }
+</script>
+</html>

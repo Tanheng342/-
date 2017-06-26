@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        function handle(data){
+            var resDiv = document.getElementById('res');
+            console.log(data);
+            if(data.success == "1"){
+                resDiv.innerHTML = data.result.detailed;
+            } else {
+                resDiv.innerHTML = data.msg;
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="inp">
+    <input type="button" id="btn" value="测试">
+    <div id="res"></div>
+    <script>
+        window.onload = function (){
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                var ip = document.getElementById('inp').value;
+
+                var url = "http://api.k780.com:88/?app=ip.get" +
+                "&ip=" + ip +
+                "&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json" +
+                "&jsoncallback=handle";
+
+                var script = document.createElement('script');
+                script.src = url;
+                var head = document.getElementsByTagName('head')[0];
+                head.appendChild(script);
+            };
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+    </script>
+</head>
+<body>
+    <input type="text" id="inp">
+    <input type="button" id="btn" value="测试">
+    <br>
+    <div id="qrcode"></div>
+    <script>
+        window.onload = function (){
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                var content = document.getElementById('inp').value;
+
+                var url = "http://api.k780.com:88/?app=qr.get" +
+                "&data=" + content +
+                "&level=L&size=6";
+
+                var img = document.createElement('img');
+                img.src = url;
+                var qrDiv = document.getElementById('qrcode');
+                qrDiv.innerHTML = "";
+                qrDiv.appendChild(img);
+            };
+        };
+    </script>
+</body>
+</html>

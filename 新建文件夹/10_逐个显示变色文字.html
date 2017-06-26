@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #redSpan {
+            color : red;
+        }
+        #pinkSpan {
+            color : pink;
+        }
+    </style>
+</head>
+<body>
+    <span id="redSpan"></span>
+    <span id="pinkSpan"></span> <br><br>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var str = "这是一个逐个显示文字的案例。";
+
+            var i = 0; // 定义一个变量表示索引值
+            var timer = setInterval(function (){
+                // console.log(i);
+                // 获取要红色显示的文本
+                var redTxt = str.substring(0,i);
+                // 获取要粉色显示的文本
+                var pinkTxt = str.charAt(i);
+
+                // 获取两个span
+                var redSpan = document.getElementById('redSpan');
+                var pinkSpan = document.getElementById('pinkSpan');
+                // 将获取到的文本放到指定的span中
+                redSpan.innerHTML = redTxt;
+                pinkSpan.innerHTML = pinkTxt;
+                // i作一个增量
+                i++;
+                // 当文字显示完之后, 停止定时器
+                if(i > str.length){
+                    clearInterval(timer);
+                }
+            }, 500);
+        };
+    </script>
+</body>
+</html>

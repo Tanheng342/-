@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+<span>现在时间：</span>
+<div  id="test"></div>
+<div   id="dj"></div>
+  <script type="text/javascript">
+    var test = document.getElementById('test')
+  setInterval(  function showtime(){
+  	var mydate = new Date (),
+        y = mydate.getFullYear(),
+        mo = mydate.getMonth()+1,
+        d = mydate.getDate(),
+        h = mydate.getHours(),
+        m = mydate.getMinutes(),
+        s = mydate.getSeconds(),
+        hs= mydate.getMilliseconds();
+        test.innerHTML=(y+'年'+sjt(mo)+'月'+sjt(d)+"日  "+sjt(h)+'时'+sjt(m)+'分'+sjt(s)+'秒')
+    },1)
+        function sjt(v){
+        	if(v<10){return "0"+v}
+           else {return  "" + v  }
+
+        }
+function stime(){
+var dj = document.getElementById('dj')
+var week = new Date(2017,12,25)
+var mydate= new Date() 
+var myh = mydate.getTime()
+var wh = week.getTime()
+var day = 24*60*60*1000
+var hours = 60*60*1000
+var min = 60*1000
+var sc = 1000
+
+var  sum = wh-myh
+var  d = parseInt(sum /day)
+var  h = parseInt((sum -d*day)/hours)
+var  m = parseInt((sum -d*day-h*hours)/min)
+var  s = parseInt((sum -d*day-h*hours-m*min)/sc)
+    dj.innerHTML=(d+'天'+h+'时'+m+'分'+s+'秒')
+    } stime()
+ setInterval(stime,1)   
+  </script>
+</body>
+</html>

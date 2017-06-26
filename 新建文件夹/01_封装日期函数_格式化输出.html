@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var div1 = document.getElementById('div1');
+            var now = new Date();
+            div1.innerHTML = convertDateToStr(now, {
+                hToken : "*"
+            });
+        };
+
+        // 函数参数的个数尽量不要超过五个
+        /*
+        */
+        function convertDateToStr(date, options){
+            // 对于定制化参数过多的函数, 一般采用对象字面量的形式传递
+            /*
+                {
+                    yToken : "-",
+                    blankToken : " ",
+                    hToken : ":"
+                }
+            */
+            // if(!yToken){
+            //     yToken = "-";
+            // }
+            // if(!blankToken){
+            //     blankToken = " ";
+            // }
+            // if(!hToken){
+            //     hToken = ":";
+            // }
+
+            if(!options){
+                options = {};
+            }
+            var yToken = "-";
+            if(options.yToken){
+                yToken = options.yToken;
+            }
+            var blankToken = " ";
+            if(options.blankToken){
+                blankToken = options.blankToken;
+            }
+            var hToken = ":";
+            if(options.hToken){
+                hToken = options.hToken;
+            }
+            // 获取具体的时间值(年,月,日等)
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1; // 月份要做+1处理
+            var d = date.getDate(); //
+            var h = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            // 拼出一个格式字符串("2017-03-24 09:17:44")
+            var str = y + yToken + adjust(m) + yToken + adjust(d)
+                    + blankToken + adjust(h) + hToken + adjust(min) + hToken + adjust(sec);
+
+            // 返回格式化后的字符串
+            return str;
+        };
+        function adjust(v){
+            if(v < 10){
+                return "0" + v;
+            }
+            return "" + v;
+        }
+    </script>
+</body>
+</html>

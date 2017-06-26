@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//h2D XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/h2D/xhtml1-transitional.h2d">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JavaScript简易日历</title>
+<style type="text/css">
+* { padding: 0; margin: 0; }
+li { list-style: none; }
+body { background: #f6f9fc; font-family: arial; }
+
+.calendar { width: 210px; margin: 0 auto; padding: 10px 10px 20px 20px; background: #eae9e9; }
+.calendar ul { width: 210px; overflow: hidden; padding-bottom: 10px; }
+.calendar li { float: left; width: 58px; height: 54px; margin: 10px 10px 0 0; border: 1px solid #fff; background: #424242; color: #fff; text-align: center; cursor: pointer; }
+.calendar li h2 { font-size: 20px; padding-top: 5px; }
+.calendar li p { font-size: 14px; }
+
+.calendar .focus { border: 1px solid #424242; background: #fff; color: #e84a7e; }
+.calendar .focus p { font-weight: bold; }
+
+.calendar .text { width: 178px; padding: 0 10px 10px; border: 1px solid #fff; padding-top: 10px; background: #f1f1f1; color: #555; }
+.calendar .text h2 {font-size: 14px; margin-bottom: 10px; }
+.calendar .text p { font-size: 12px; line-height: 18px; }
+
+</style>
+<script type="text/javascript">
+	arr = [
+		'考完试就放假回家过年了~',
+		'过完年回来发现年前学的都忘了~',
+		'继续努力学习HTML5准备找份好工作~',
+		'从千锋毕业准备进入企业，昨天面试要少了~',
+		'已经入职了，发现编码规则很重要~',
+		'夏天马上要到了，得注意饮食，适当减肥~',
+		'我去，大魔都真热~',
+		'进入公司3个多月，已经顺利转正~',
+		'马上10月1号了，还是上学好，假期那么长~',
+		'昨天新入职一个妹纸，总问我问题，是不是对我有意思，哈哈~',
+		'因为对新员工妹纸指导有方，领导指派我带一带她，升职指日可待，哈哈哈~',
+		'How time flies，去年这个时候还在千锋呢~'
+	];
+
+	window.onload = function () {
+		var lis = document.getElementsByTagName('li');
+		// 给所有的li加点击事件
+		for(var i = 0; i < lis.length; i++){
+			lis[i].index = i;
+			lis[i].onclick = function (){
+				// 将所有的li的class清掉(样式恢复)
+				for(var j = 0; j < lis.length; j++){
+					lis[j].className = "";
+				}
+				// 将当前被点击的li, 加上focus类
+				this.className = "focus";
+
+				// 改日历字样
+				var infoDiv = document.getElementById('info');
+
+				var h2 = infoDiv.getElementsByTagName('h2')[0];
+				h2.innerHTML = (this.index + 1) + "月活动";
+
+				var p = infoDiv.getElementsByTagName('p')[0];
+				p.innerHTML = (this.index + 1) + "月活动," + arr[this.index];
+			};
+		}
+
+	}
+</script>
+</head>
+
+<body>
+
+<div id="tab" class="calendar">
+
+    <ul id="list">
+        <li class="focus"><h2>1</h2><p>JAN</p></li>
+        <li><h2>2</h2><p>FER</p></li>
+        <li><h2>3</h2><p>MAR</p></li>
+        <li><h2>4</h2><p>APR</p></li>
+        <li><h2>5</h2><p>MAY</p></li>
+        <li><h2>6</h2><p>JUN</p></li>
+        <li><h2>7</h2><p>JUL</p></li>
+        <li><h2>8</h2><p>AUG</p></li>
+        <li><h2>9</h2><p>SEP</p></li>
+        <li><h2>10</h2><p>OCT</p></li>
+        <li><h2>11</h2><p>NOV</p></li>
+        <li><h2>12</h2><p>DEC</p></li>
+    </ul>
+
+    <div class="text" id="info">
+        <h2>1月活动</h2>
+        <p>1月份，考完试就放假回家过年了~</p>
+    </div>
+
+</div>
+
+</body>
+</html>

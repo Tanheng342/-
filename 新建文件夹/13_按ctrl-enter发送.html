@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin: 0;padding: 0;}
+    </style>
+</head>
+<body>
+    <textarea id="txt" cols="30" rows="10"></textarea>
+    <br><br>
+    <input type="text" id="inp">
+    <input type="button" id="btn" value="发送">
+    <script>
+        window.onload = function (){
+            $('#inp').onkeydown = function (e){
+                var evt = e || window.event;
+
+                // 一般的, 组合在键盘按下的时候去检测
+                var code = evt.which || evt.keyCode;
+                // console.log(code);
+
+                if(code == 13 && evt.ctrlKey){
+                    // 这个if成立, 说明ctrl-enter被按下
+                    // 获取输入框中输入的内容
+                    var content = this.value;
+
+                    // 将内容加到textarea中
+                    $('#txt').value += content + "\n";
+                }
+            }
+
+            $('#btn').onclick = function (){
+                // 转义字符: \n 换行
+                // \'   转义单引号
+                // \"   转义双引号
+                // \\   转义捺斜杠
+                // \uXXXX  x代表一个16进制的数字, 这个可以根据编码转义单个unicode字符
+                // alert("\u6211");
+
+                // 获取输入框中输入的内容
+                var content = $('#inp').value;
+
+                // 将内容加到textarea中
+                $('#txt').value += content + "\n";
+            }
+        };
+
+        function $(selector, root){
+            if(!root){
+                root = document;
+            }
+            var starter = selector.charAt(0); // 获取选择器的第一个字符
+            if(starter == "#"){
+                return document.getElementById(selector.substring(1));
+            } else if(starter == "."){
+                return root.getElementsByClassName(selector.substring(1));
+            } else {
+                return root.getElementsByTagName(selector);
+            }
+        }
+    </script>
+</body>
+</html>

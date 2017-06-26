@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #btn {
+            position: fixed; right: 10px;bottom: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function (){
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            };
+        };
+    </script>
+</head>
+<body style="height:2000px;width:2000px;">
+    <input type="button" id="btn" value="回到顶部">
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		 <h3>xxx局首页>办事大厅>xx事物</h3>
+    <ul id="list"></ul>
+    <div id="nav">
+        <a href="javascript:;" data-id="first">首页</a>
+        <a href="javascript:;" data-id="previous">前一页</a>
+        <a href="javascript:;" data-id="1">1</a>
+        <a href="javascript:;" data-id="2">2</a>
+        <a href="javascript:;" data-id="3">3</a>
+        <a href="javascript:;" data-id="next">下一页</a>
+        <a href="javascript:;" data-id="last">末页</a>
+    </div>
+	</body>
+	<script type="text/javascript" src="ajax.js">
+	</script>
+	<script type="text/javascript">
+		 var pagenum =1;
+		  function pages(n){
+		  	ajax(
+		  		"GET",
+		  		"page" + n + ".json",
+		  		null,
+		  		function (date){
+		  			date = JSON.parse(date)
+		  			var ul = document.getElementById("list");
+		  			ul.innerHTML = null;
+		  			for(var i =0; i<date.length; i++){
+		  				var li = document.createElement("li")
+		  				li.innerHTML=date[i].title+" "+date[i].time;
+		  				
+		  				ul.appendChild(li)
+		  			}
+		  		}
+		  	)
+		  }
+		    pages(pagenum);
+		    
+		    var nav= document.getElementById("nav");
+		    var alla = nav.getElementsByTagName("a")
+		    for(var i = 0; i<alla.length;i++){
+		    	alla[i].onclick = function (){
+		    		var id = this.getAttribute('data-id');
+		    		if(id=="first"){
+		    			pagenum = 1;
+		    		}else if(id=="last"){
+		    			pagenum = 3;
+		    		}else if(id == "previous"){
+		    			pagenum--
+		    			if(pagenum<=0){
+		    				pagenum=1
+		    			}
+		    		}else if(id=="next"){
+		    			pagenum++
+		    			if(pagenum>3){
+		    				pagenum =3;
+		    			}
+		    		}else{
+		    			pagenum=parseInt(id)
+		    		}
+		    		pages(pagenum)
+		    		
+		    	}
+		    	
+		    	
+		    }
+	</script>
+</html>

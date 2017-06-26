@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #adv {
+            position: fixed; left: 200px; top: 100px;
+            width: 300px;height: 150px;
+            background: #CCC;
+            color : red;
+        }
+    </style>
+    <script>
+        window.onload = function (){
+            var timer = setInterval(function (){
+                var timeSpan = document.getElementById('time');
+                var v = parseInt(timeSpan.innerHTML);
+                v--;
+                timeSpan.innerHTML = v;
+
+                if(v == 0){
+                    clearInterval(timer);
+                    var adv = document.getElementById('adv');
+                    // 隐藏整个广告框
+                    adv.style.display = "none";
+                }
+            }, 1000);
+        };
+    </script>
+</head>
+<body style="height:2000px;width:2000px;">
+    <div id="adv">
+        这是一个广告, 将在<span id="time">5</span>秒钟之后关闭
+    </div>
+</body>
+</html>

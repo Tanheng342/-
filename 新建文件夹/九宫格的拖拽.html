@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	*{margin: 0; padding: 0}
+	    ul li {list-style: none}
+	    ul { width: 303px; height: 303px; margin: 100px auto;  }
+		ul li {height: 100px;
+				 width: 100px;
+				 background: red;
+				 float: left;
+				 margin-left: 1px;
+				 margin-top: 1px;				
+				
+				}
+		/*ul li:nth-child(1) {left:600px; top:100px;}
+		ul li:nth-child(2) {left:701px; top:100px;}
+		ul li:nth-child(3) {left:802px; top:100px;}
+		ul li:nth-child(4) {left:600px; top:201px;}
+		ul li:nth-child(5) {left:701px; top:201px;}
+		ul li:nth-child(6) {left:802px; top:201px;}
+		ul li:nth-child(7) {left:600px; top:302px;}
+		ul li:nth-child(8) {left:701px; top:302px;}
+		ul li:nth-child(9){left:802px; top:302px;}*/
+
+	</style>
+
+
+</head>
+<body>
+<ul id="uls">
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li> 
+</ul>
+
+
+
+<script type="text/javascript">
+var lis = document.getElementsByTagName('li')
+/* for(var i =0; i<lis.length; i++){   
+	lis[i].style.left=lis[i].offsetLeft +'px';
+	lis[i].style.top=lis[i].offsetTop+'px';
+}
+ for(var i =0; i<lis.length; i++){   
+	lis[i].style.position='absolute';
+	lis[i].style.margin	='0'
+}
+ for(var i =0; i<lis.length; i++){   
+	xid(lis[i])
+}
+*/
+
+for(var i =lis.length-1;i>=0;i--){
+    lis[i].style.left=lis[i].offsetLeft +'px';
+	lis[i].style.top=lis[i].offsetTop+'px';
+	lis[i].style.position='absolute';
+	lis[i].style.margin	='0';
+	xid(lis[i])
+}
+   function xid(lis){
+    lis.onmousedown = function (e){
+    	var evt = e||window.event;
+    	 var l = evt.offsetX;
+    	 var t = evt.offsetY;
+      document.onmousemove =function(e){
+      	var evt = e||window.event;
+      	var x = evt.pageX-l;
+      	var y = evt.pageY-t;
+         var maxx = document.documentElement.clientWidth - lis.offsetWidth;
+         if(x>maxx){x= maxx}else if(x<0){x=0}
+
+        var maxy = document.documentElement.clientHeight - lis.offsetHeight;
+         if(y>maxy){y= maxy}else if(y<0){y=0}
+      	lis.style.left = x+'px'
+      	lis.style.top= y+'px'
+      }
+      document.onmouseup = function (){
+   	  document.onmousemove =null;
+   	  document.onmouseup=null;
+     }
+     return false;
+    }
+
+ }
+
+</script>
+</body>
+</html>

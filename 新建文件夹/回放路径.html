@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#div1 {height: 100px;
+				 width: 100px;
+				 background: red;
+				 position: absolute;
+				 left: 100px; top: 100px ;
+				}
+	</style>
+</head>
+<body>
+<div id="div1"></div>
+<input type="button" id="btn" value="测试">
+<script type="text/javascript">
+var div1 = document.getElementById('div1');
+xid(div1)
+
+function xid(lis){
+
+    lis.onmousedown = function (e){
+         
+    	var evt = e||window.event;
+    	 var l = evt.offsetX;
+    	 var t = evt.offsetY;
+    	 var arr=[];
+    	 var brr=[];
+    	 var i =0;
+    	     btn.onclick= function(){
+	          var timer= setInterval(function(){
+	         	div1.style.left = arr[i]+'px';
+			    div1.style.top = brr[i]+'px';
+			    i++
+			    if(i==arr.length-1){clearInterval(timer)}
+	         },30)
+	        
+	        }
+      document.onmousemove =function(e){
+		      	var evt = e||window.event;
+		      	var x = evt.pageX-l;
+		      	var y = evt.pageY-t;
+	             arr.push(x);
+	             brr.push(y); 
+	         
+		        var maxx = document.documentElement.clientWidth - lis.offsetWidth;
+		         if(x>maxx){x= maxx}else if(x<0){x=0}
+
+		        var maxy = document.documentElement.clientHeight - lis.offsetHeight;
+		         if(y>maxy){y= maxy}else if(y<0){y=0}
+			      	lis.style.left = x+'px';
+			      	lis.style.top= y+'px';
+			      	 
+                 }
+                     arr=[];
+    	             brr=[];
+      document.onmouseup = function (){
+	   	  document.onmousemove =false;
+	   	  document.onmouseup=false;
+      }
+      return false;
+    }
+
+}
+</script>
+</body>
+</html>

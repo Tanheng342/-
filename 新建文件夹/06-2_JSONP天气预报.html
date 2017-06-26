@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        function handle(data){
+            console.log(data);
+            var ul = document.getElementById('myUl');
+            ul.innerHTML = "";
+            // 获取7天天气的数组
+            var res = data.result;
+            // 遍历这个数组
+            for(var i = 0; i < res.length; i++){
+                var detail = res[i];
+                var li = document.createElement('li');
+                li.innerHTML = detail.days + " " + detail.week + " " + detail.weather + " " + detail.temperature;
+                ul.appendChild(li);
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="inp">
+    <input type="button" id="btn" value="测试">
+    <ul id="myUl"></ul>
+    <script>
+        window.onload = function (){
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                var cityName = document.getElementById('inp').value;
+                // 准备一个url, 作为script标签的src
+                var url = "http://api.k780.com:88/?app=weather.future" +
+                "&weaid=" + cityName +
+                "&&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json" +
+                "&jsoncallback=handle";
+
+                // 创建一个script标签
+                var script = document.createElement('script');
+                script.src = url;
+                var head = document.getElementsByTagName('head')[0];
+                head.appendChild(script);
+            };
+        };
+    </script>
+</body>
+</html>

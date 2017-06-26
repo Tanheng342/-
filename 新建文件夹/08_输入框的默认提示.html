@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>test</title>
+        <style>
+            #inp {
+                color : #CCC;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="inp" value="在此输入用户名">
+        <script type="text/javascript">
+            window.onload = function (){
+                var inp = document.getElementById('inp');
+                inp.onfocus = function (){
+                    // 1. 将默认显示的字去掉
+                    if(this.value == "在此输入用户名"){
+                        this.value = "";
+                    }
+
+                    // 2. 字体颜色变成黑的
+                    this.style.color = "black";
+                };
+                inp.onblur = function (){
+                    // 判断输入框中是否有内容
+                    if(!this.value){
+                        // 如果内容为空, 将默认提示显示出来
+                        this.value = "在此输入用户名";
+                        // 颜色改回灰色
+                        this.style.color = "#CCC";
+                    }
+                };
+            };
+        </script>
+    </body>
+</html>

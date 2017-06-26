@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{padding: 0;margin: 0;}
+        img {
+            width: 300px;
+            opacity : 0.3;
+            filter : alpha(opacity=30);
+        }
+    </style>
+</head>
+<body>
+    <img src="img/1.jpg" id="myImg">
+    <script>
+        window.onload = function (){
+            $('#myImg').onmouseover = function (){
+                this.style.opacity = "1";
+                this.style.filter = "alpha(opacity=100)";
+            };
+            $('#myImg').onmouseout = function (){
+                this.style.opacity = "0.3";
+                this.style.filter = "alpha(opacity=30)";
+            };
+        };
+
+        function $(selector, root){
+            if(!root){
+                root = document;
+            }
+            var starter = selector.charAt(0); // 获取选择器的第一个字符
+            if(starter == "#"){
+                return document.getElementById(selector.substring(1));
+            } else if(starter == "."){
+                return root.getElementsByClassName(selector.substring(1));
+            } else {
+                return root.getElementsByTagName(selector);
+            }
+        }
+    </script>
+</body>
+</html>

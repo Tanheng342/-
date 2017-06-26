@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="text" id="inp1" />
+    <input type="button" id="btn" value="压缩" >
+    <input type="text" id="inp2" />
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            // 获取两个输入框
+            var inp1 = document.getElementById('inp1');
+            var inp2 = document.getElementById('inp2');
+
+            // 获取第一个输入框中输入的字符串
+            var str = inp1.value;
+            // 压缩
+            // char a
+            // count 3
+            // result "a3b3"
+            // "aaabbbaaa" ""
+            // 定义几个变量用于存放计数,要计数的字符,以及结果
+            var char = str.charAt(0);
+            var count = 1;
+            var result = "";
+            // 用循环去遍历字符串中每一个字符
+            for(var i = 1; i < str.length; i++){
+                var currentChar = str.charAt(i);
+                if(char == currentChar){
+                    // 如果是相同的字符, 那么计数加1
+                    count++;
+                } else {
+                    // 如果是不同的字符, 说明前一个字符的统计结束,放到结果上
+                    result += char + count;
+                    // 计数和要计数的字符重新初始化
+                    char = currentChar;
+                    count = 1;
+                }
+            }
+            // 再讲最后一个字符的统计结果放到结果result上
+            result += char + count;
+
+            // 输出结果
+            inp2.value = result;
+        };
+    </script>
+</body>
+</html>

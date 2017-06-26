@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+    <script>
+        window.onload = function (){
+            var btn = document.getElementById('btn');
+            btn.onclick = function (){
+                // 方法一: 用setInterval去完成
+                /*
+                var i = 0; // 弄个i的标记, 一直++
+                var timer = setInterval(function (){
+                    if(i % 4 == 0){
+                        window.moveBy(10, 0);
+                    } else if(i % 4 == 1){
+                        window.moveBy(0, 10);
+                    } else if(i % 4 == 2){
+                        window.moveBy(-10, 0);
+                    } else if(i % 4 == 3){
+                        window.moveBy(0, -10);
+                    }
+                    i++;
+                    if(i >= 50){
+                        clearInterval(timer);
+                    }
+                }, 50);
+                */
+
+                // 方法二: 用setTimeout去完成
+                var i = 0;
+                function move(){
+                    setTimeout(function (){
+                        if(i % 4 == 0){
+                            window.moveBy(10, 0);
+                        } else if(i % 4 == 1){
+                            window.moveBy(0, 10);
+                        } else if(i % 4 == 2){
+                            window.moveBy(-10, 0);
+                        } else if(i % 4 == 3){
+                            window.moveBy(0, -10);
+                        }
+                        i++;
+                        // 在运行结束之后, 在调用一次move函数
+                        if(i <= 20){
+                            move();
+                        }
+                    }, i*5);
+                }
+                move();
+
+                // 对比setInterval和setTimeout:
+                //  1. setInterval能做的setTimeout都可以. setTimeout能做的setInterval不一定行(主要是在间隔时间可变的情况下)
+                //  2. setInterval在间隔时间固定的情况下, 使用起来更方便一些
+
+            };
+        };
+    </script>
+</head>
+<body style="height:2000px;width:2000px;">
+    <input type="button" id="btn" value="测试">
+</body>
+</html>

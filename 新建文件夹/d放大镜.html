@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+  <style type="text/css">
+   ul li {list-style: none}
+   ul li { float: left ; border:1px #000 solid; margin-right: 10px }
+    .img { display: none ; position: absolute;left:0;top:0;}
+  </style>
+</head>
+<body>
+<ul id="uls"><li> <img src="img/shirt_1.jpg">
+         <img src="img/shirt_1_big.jpg" class="img"> </li>
+    <li><img src="img/shirt_2.jpg">
+         <img src="img/shirt_2_big.jpg" class="img"></li>
+    <li><img src="img/shirt_3.jpg">
+         <img src="img/shirt_3_big.jpg" class="img"></li>
+    <li><img src="img/shirt_4.jpg">
+         <img src="img/shirt_4_big.jpg" class="img"></li>
+</ul>
+</body>
+<script type="text/javascript">
+  var lis = document.getElementsByTagName('li');
+
+/*     document.onmousemove= function (e){// 移动图片
+      var uls = document.getElementById('uls')
+        var imgs=document.getElementsByClassName('img')// 获取大图
+        for(var j =0; j<imgs.length; j++){ // 得到每个大图
+        var evt = e||window.event;
+        var m =evt.pageX;//鼠标的位置
+        var n = evt.pageY;
+        imgs[j].style.left=m+'px';// 改变图片的位置
+        imgs[j].style.top=n+'px';
+       }
+      }*/
+
+  for(var i =0; i<lis.length; i++){//移动到 li 上 图片的出现
+      lis[i].b=i
+    lis[i].onmousemove = function ( e){
+      var uls = document.getElementById('uls')
+        var imgs=document.getElementsByClassName('img')// 获取大图 
+        imgs[this.b].style.display = "block";
+        var evt = e||window.event;
+        var m =evt.pageX;//鼠标的位置
+        var n = evt.pageY;
+        imgs[this.b].style.left=m+5+'px';// 改变图片的位置
+        imgs[this.b].style.top=n+5+'px';
+  }
+
+  lis[i].onmouseout = function (){//离开 li 上 图片的消失
+      var uls = document.getElementById('uls')
+        var imgs=document.getElementsByClassName('img')// 获取大图
+        imgs[this.b].style.display = "none";
+  }
+}
+
+</script>
+</html>

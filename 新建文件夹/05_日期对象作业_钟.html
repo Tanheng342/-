@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;padding: 0;
+        }
+        #clock {
+            width: 200px;height: 200px;
+            border : 5px solid black;
+            border-radius: 50%;
+            margin : 100px auto;
+            position: relative;
+        }
+        #scaleUl {
+            list-style: none;
+            position: relative;
+            height: 200px;
+        }
+        #scaleUl li {
+            width: 2px; height: 6px;
+            background: #000;
+            position: absolute; left: 99px; top: 0;
+            transform-origin: center 100px;
+        }
+        #scaleUl li:nth-of-type(5n+1) {height: 12px; }
+
+/*        #scaleUl li:nth-of-type(1) {transform : rotate(0deg); }
+        #scaleUl li:nth-of-type(2) {transform : rotate(6deg); }
+        #scaleUl li:nth-of-type(3) {transform : rotate(12deg); }
+*/
+        #hour {
+            width: 6px; height: 40px;
+            background: #000;
+            position: absolute; left: 97px; top: 60px;
+            transform-origin: center bottom;
+        }
+        #min {
+            width: 4px; height: 60px;
+            background: #CCC;
+            position: absolute; left: 98px; top: 40px;
+            transform-origin: center bottom;
+        }
+        #sec {
+            width: 2px; height: 80px;
+            background: #f00;
+            position: absolute; left: 99px; top: 20px;
+            transform-origin: center bottom;
+        }
+        #dot {
+            width: 20px; height: 20px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute; left: 90px;top: 90px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="clock">
+        <ul id="scaleUl">
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+        </ul>
+        <div id="hour"></div>
+        <div id="min"></div>
+        <div id="sec"></div>
+        <div id="dot"></div>
+    </div>
+    <script>
+        // 获取所有的li
+        var lis = document.getElementsByTagName('li');
+        for(var i = 0;i < lis.length; i++){
+            lis[i].style.transform = "rotate(" + 6*i + "deg)";
+        }
+
+        function showTime(){
+            var now = new Date();
+
+            var h = now.getHours();
+            var m = now.getMinutes();
+            var s = now.getSeconds();
+
+            // 时针要将分钟数考虑进去
+            h = h + m / 60 + s / 3600;
+            m = m + s / 60;
+            // 获取时针
+            var hBar = document.getElementById('hour');
+            hBar.style.transform = "rotate(" + 30*h + "deg)";
+            // 获取分针
+            var mBar = document.getElementById('min');
+            mBar.style.transform = "rotate(" + 6*m + "deg)";
+            // 获取秒针
+            var sBar = document.getElementById('sec');
+            sBar.style.transform = "rotate(" + 6*s + "deg)";
+        }
+        showTime();
+        setInterval(showTime, 1000);
+    </script>
+</body>
+</html>

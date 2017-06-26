@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    系统当前时间: <span id="currentTime"></span>
+    <br><br>
+    当前页面已停留时间: <span id="stayTime"></span>
+    <br><br>
+    请输入字符: <input type="text" id="inp"> <input type="button" id="btn" value="执行">
+    <br><br>
+    您输入的字符是: "<span id="char"></span>"
+    ASCII码是 : <span id="ascii"></span>
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var inp = document.getElementById('inp');
+            var v = inp.value;
+
+            var charSpan = document.getElementById('char');
+            charSpan.innerHTML = v;
+
+            // var code = v.charCodeAt(0);
+            var result = "";
+            for(var i = 0; i < v.length; i++){
+                var code = v.charCodeAt(i);
+                if(result){
+                    result += ",";
+                }
+                result += code;
+            }
+            var asciiSpan = document.getElementById('ascii');
+            asciiSpan.innerHTML = result;
+        };
+        // 获取页面打开的时间
+        var openTime = new Date();
+        // showStayTime用于显示当前页面已停留时间
+        function showStayTime(){
+            // 已停留时间: 当前时间-页面打开的时间
+            var now = new Date();
+
+            // 获取差值
+            var delta = now - openTime;
+
+            // 定义一些常量
+            var hMs = 60*60*1000;
+            var mMs = 60*1000;
+            var sMs = 1000;
+
+            // 计算停留多少小时
+            var hours = Math.floor((delta) / hMs);
+            // 计算停留多少分钟
+            var mins = Math.floor((delta - hMs * hours) / mMs);
+            // 计算停留多少秒
+            var secs = Math.floor((delta - hMs * hours - mins * mMs) / sMs);
+
+            var str = hours + "小时" + mins + "分钟" + secs + "秒";
+
+            // 输出到页面
+            var staySpan = document.getElementById('stayTime');
+            staySpan.innerHTML = str;
+        }
+        showStayTime();
+        setInterval(showStayTime, 1000);
+        // showTime用于显示系统当前时间
+        function showTime(){
+            var now = new Date();
+            var str = convertDateToStr(now);
+
+            var currentSpan = document.getElementById('currentTime');
+            currentSpan.innerHTML = str;
+        }
+        showTime();
+        setInterval(showTime, 1000);
+        function convertDateToStr(date, options){
+            if(!options){
+                options = {};
+            }
+            var yToken = "-";
+            if(options.yToken){
+                yToken = options.yToken;
+            }
+            var blankToken = " ";
+            if(options.blankToken){
+                blankToken = options.blankToken;
+            }
+            var hToken = ":";
+            if(options.hToken){
+                hToken = options.hToken;
+            }
+            // 获取具体的时间值(年,月,日等)
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1; // 月份要做+1处理
+            var d = date.getDate(); //
+            var h = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            // 拼出一个格式字符串("2017-03-24 09:17:44")
+            var str = y + yToken + adjust(m) + yToken + adjust(d)
+                    + blankToken + adjust(h) + hToken + adjust(min) + hToken + adjust(sec);
+
+            // 返回格式化后的字符串
+            return str;
+        };
+        function adjust(v){
+            if(v < 10){
+                return "0" + v;
+            }
+            return "" + v;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		.div1{height: 350px; width: 640px; margin: auto;}
+		
+			#box {
+				width:640px;
+				height: 320px;
+				margin: 100px auto;
+				border:1px #000 solid;
+			}
+			
+			#box div {
+				width: 127px;
+				height: 106px;
+				background: #f00;
+				float: left;
+				margin: 1px 0 0 1px;
+				font-size: 50px;
+				line-height: 100px;
+				text-align: center;
+				
+			}
+			
+			#bg {width: 127px;
+				height: 106px;
+				background: #ccc;
+				position: absolute;
+				opacity: .8;
+				display: none;
+				}
+			#btn { width: 100px;}	
+		</style>
+	</head>
+	<body>
+		<div class="div1">
+		<div id="box">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			
+		</div>
+		<div id="bg"></div>
+		
+		</div>
+	</body>
+	<script>
+	window.onload = function() {
+				var box = document.getElementById('box');
+				var divs = box.getElementsByTagName('div');
+				// 首先作布局转换, 顺手把这些div的初始位置存一下
+				// [{left:100,top:100}, {left:200,top:200}]
+				
+				// 打乱前给每一个div编个号
+            for(var i = 0; i < divs.length; i++){
+                divs[i].originIndex = i;
+            }
+
+            // 在打乱之前, 给所有的div加背景
+            for(var i = 0; i < 3; i++){ //外层循环循环 行  
+                for(var j = 0; j < 5; j++){ // 内层循环循环 列
+                    divs[i*5 + j].style.background = "url(img1.jpg) -" + 127*j + "px -" + i*106+ "px";
+                }
+            }
+    
+                // 应用数组把所有的div打乱
+				var brr =[];
+				for(var i=0;i<divs.length;i++){
+					brr.push(divs[i])
+				}
+                brr.sort(function( ){
+                	return Math.random()-0.5
+                })
+                // 将所有div按打乱后的顺序放回去
+                for(var i=0;i<brr.length;i++){
+                	box.appendChild(brr[i])
+                }
+              
+             
+				var posArr = [];
+				for(var i = 0; i < divs.length; i++) {
+					divs[i].style.left = divs[i].offsetLeft + "px";
+					divs[i].style.top = divs[i].offsetTop + "px";
+					divs[i].index = i; // 存一下div的下标
+					posArr.push({
+						left: divs[i].offsetLeft,
+						top: divs[i].offsetTop
+					});
+				}
+				for(var i = 0; i < divs.length; i++) {
+					divs[i].style.position = "absolute";
+					divs[i].style.margin = "0";
+					drag(divs[i]);
+				}
+
+				// 定义一个变量, 表示当前最高的zIndex
+				var zIndex = 0;
+
+				function drag(dom) {
+					dom.onmousedown = function(e) {
+						var evt = e || window.event;
+						var l = evt.offsetX;
+						var t = evt.offsetY;
+						// 定义一个变量, 用于存放最近的那个div
+						var nearestDiv = null;
+						// 将被移动的块的z-index在当前最高等级的基础上升高一级
+						bg.style.zIndex = ++zIndex;
+						// 先将蒙层的层级升上去
+						dom.style.zIndex = ++zIndex;
+						document.onmousemove = function(e) {
+							var evt = e || window.event;
+							var toLeft = evt.pageX - l;
+							var toTop = evt.pageY - t;
+
+							dom.style.left = toLeft + "px";
+							dom.style.top = toTop + "px";
+
+							// 当拖拽发生移动的时候, 找一下碰上的最近的那个div
+							nearestDiv = findNearest(dom);
+							// 如果有最近的块, 把bg移动到最近的块的位置
+                        //  以提示哪个块是最近的
+							if(nearestDiv){
+								 bg.style.display = "block";
+                            bg.style.left = posArr[nearestDiv.index].left + "px";
+                           bg.style.top = posArr[nearestDiv.index].top + "px";
+                          
+							}
+						}
+						document.onmouseup = function() {
+							document.onmousemove = null;
+							document.onmouseup = null;
+							// 当鼠标抬起的时候, 检测有没有找到最近的那个div
+							// 若找到, 就换位置
+							if(nearestDiv) {
+								// 1. 换两个块的位置
+								nearestDiv.style.left = posArr[dom.index].left + "px";
+								nearestDiv.style.top = posArr[dom.index].top + "px";
+								dom.style.left = posArr[nearestDiv.index].left + "px";
+								dom.style.top = posArr[nearestDiv.index].top + "px";
+								// 2. 换两个块的下标
+								var temp = dom.index;
+								dom.index = nearestDiv.index;
+								nearestDiv.index = temp;
+								nearestDiv.style.transition = "all .5s "
+								
+								nearestDiv.style.zIndex = ++zIndex;
+								 if(iscomput()){
+                                // 这边做一个延时, 是的最后一个块交换完成后再弹出对话框
+                                setTimeout(function (){
+                                    alert("拼图完成");
+                                }, 10);
+                            } else {
+                                console.log('拼图未完成');
+                            }
+							} else {
+								// 若没有碰上, 就将dom恢复原位
+								dom.style.left = posArr[dom.index].left + "px";
+								dom.style.top = posArr[dom.index].top + "px";
+							}
+						}
+						return false;
+					}
+				}
+				// 封装一个函数专门用于检测拼图有没有完成
+				function iscomput(){
+					 for(var i = 0; i < divs.length; i++){
+	// 遍历所有div, 看看是否所有div的index属性(打乱后的编号,这个编号在移动的时候会不停地交换)
+	//  和originIndex属性(打乱前的编号)是否一一对应
+                    if(divs[i].originIndex != divs[i].index){
+                        return false;
+                    }
+                }
+                return true;
+				}
+
+				// 封装一个函数用于寻找碰到的块中的最近的那个
+				function findNearest(dom) {
+					// 定义一个足够大的数
+					var min = 99999;
+					var minIndex = -1; // 用户存放距离最近的div的下标
+					// 遍历所有的div看和哪些碰在一起
+					for(var i = 0; i < divs.length; i++) {
+						if(dom == divs[i]) {
+							continue;
+						}
+						if(detectKnock(dom, divs[i])) {
+							// 调用函数计算距离
+							var distance = calcDistance(dom, divs[i]);
+							if(distance < min) {
+								min = distance;
+								minIndex = i;
+							}
+						}
+						// divs[i].style.background = "red";
+					}
+
+					if(minIndex != -1) {
+						return divs[minIndex];
+					}
+					return null;
+				}
+
+				// 定义一个函数, 用于计算两个div之间的距离
+				function calcDistance(dom1, dom2) {
+					// 计算第一个dom的中心的坐标
+					var centerLeft1 = dom1.offsetLeft + dom1.offsetWidth / 2;
+					var centerTop1 = dom1.offsetTop + dom1.offsetHeight / 2;
+
+					// 计算第二个dom的中心的坐标
+					var centerLeft2 = dom2.offsetLeft + dom2.offsetWidth / 2;
+					var centerTop2 = dom2.offsetTop + dom2.offsetHeight / 2;
+
+					// 计算两条直角边长度
+					var a = centerLeft1 - centerLeft2;
+					var b = centerTop1 - centerTop2;
+
+					// 斜边即两个div方块的距离
+					var c = Math.sqrt(a * a + b * b);
+					return c;
+				};
+
+				function detectKnock(dom1, dom2) {
+					var l1 = dom1.offsetLeft;
+					var t1 = dom1.offsetTop;
+					var r1 = l1 + dom1.offsetWidth;
+					var b1 = t1 + dom1.offsetHeight;
+
+					var l2 = dom2.offsetLeft;
+					var t2 = dom2.offsetTop;
+					var r2 = l2 + dom2.offsetWidth;
+					var b2 = t2 + dom2.offsetHeight;
+
+					if(l1 > r2 || t1 > b2 || r1 < l2 || b1 < t2) {
+						return false;
+					}
+					return true;
+				}
+			};
+		</script>
+</html>

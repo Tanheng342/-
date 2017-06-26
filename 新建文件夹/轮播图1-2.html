@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			html,
+			body,
+			div,
+			img {
+				margin: 0;
+				padding: 0
+			}
+			
+			.kes {
+				width: 640px;
+				margin: 50px auto;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#dg {
+				width: 3200px;
+				position: relative;
+				left: 0;
+				transition: left .5s;
+			}
+			
+			#dg img {
+				float: left;
+			}
+			
+			.active {
+				background: red;
+			}
+			
+			p {
+				width: 150px;
+				position: absolute;
+				bottom: 0;
+				right: 20px;
+				z-index: 999;
+				background: rgba(222, 333, 111, .5);
+			}
+			
+			a {
+				width: 30px;
+				height: 30px;
+				float: left;
+				text-align: center;
+				line-height: 30px;
+				text-decoration: none;
+				color: #000;
+			}
+			
+			button {
+				position: absolute;
+				z-index: 999;
+				width: 80px;
+				height: 80px;
+				border: none;
+				top: 120px;
+				background: rgba(121, 122, 222, .5);
+				display: none;
+			}
+			
+			#pre {
+				left: 0;
+			}
+			
+			#next {
+				right: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="kes" id="kes">
+			<div id="dg">
+				<img src="img1.jpg" />
+				<img src="img2.jpg" />
+				<img src="img3.jpg" />
+				<img src="img4.jpg" />
+				<img src="img5.jpg" />
+			</div>
+			<button id="pre">&lt;上一张</button>
+			<button id="next">下一张&gt;</button>
+			<p>
+				<a class="active" href="javescript:;">1</a>
+				<a href="javescript:;">2</a>
+				<a href="javescript:;">3</a>
+				<a href="javescript:;">4</a>
+				<a href="javescript:;">5</a>
+			</p>
+		</div>
+		<script type="text/javascript">
+				var dg = document.getElementById('dg');
+			var imgs = document.getElementsByTagName('img')
+			var ass = document.getElementsByTagName('a')
+			var pre = document.getElementById('pre');
+			var next = document.getElementById('next')
+
+			var i = 0;
+			function course() {
+				i++
+				if(i >= 5) { i = 0 }
+                dgs(i);
+                assd(i)
+			}
+			var timer = setInterval(course, 2000)
+				
+				function dgs(i){
+					dg.style.left = -640 * i + 'px'
+				}
+				
+				function assd(i){
+					for(var k = 0; k < ass.length; k++) {
+					ass[k].className = " ";
+				}
+				ass[i].className = 'active';
+				}
+				
+				
+				var n = 0;
+			next.onclick = function() {
+				clearInterval(timer);
+				n++;
+				n %= 5;
+				dg.style.left = -640 * n + 'px'
+				for(var k = 0; k < ass.length; k++) {
+					ass[k].className = " ";
+				}
+				ass[n].className = 'active';
+				i =n
+				timer = setInterval(course, 2000)
+			} 
+			pre.onclick = function() {
+				clearInterval(timer);
+				n--;
+				if(n < 0) { n = 4 }
+				dg.style.left = -640 * n + 'px'
+				for(var k = 0; k < ass.length; k++) {
+					ass[k].className = " ";
+				}
+				ass[n].className = 'active';
+				i =n
+				timer = setInterval(course, 2000)
+			}
+			kes.onmouseover = function() {
+				pre.style.display = 'block';
+				next.style.display = 'block'
+			}
+			kes.onmouseout = function() {
+				pre.style.display = 'none';
+				next.style.display = 'none';
+			}
+				
+		/*	for(var j = 0; j < ass.length; j++) {
+				ass[j].num = j;
+				ass[j].onclick = function() {
+					clearInterval(timer);
+					   i = this.num
+					   n = this.num
+					      dgs(this.num)
+					      assd(this.num)
+					timer = setInterval(course, 2000)
+					
+				}
+			}	*/
+			 for(var j= 0; j < ass.length; j++){
+                ass[j].num = j;
+                ass[j].onmouseover = function (){// a标签的触碰事件
+                   
+                    clearInterval(timer);
+                   
+                    i = this.num;
+                    n=this.num;
+                    dgs(this.num)
+					assd(this.num)
+                };
+                ass[j].onmouseout = function (){
+                    
+                    timer = setInterval(course, 2000);
+                };
+            }
+		</script>
+	</body>
+</html>

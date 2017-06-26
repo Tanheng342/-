@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var now = new Date();
+            var res = isLeapYear(now);
+            if(res){
+                console.log("是闰年");
+            } else {
+                console.log("不是闰年");
+            }
+        };
+
+        /*
+            @author : zhengrf
+            @date : 2017.03.23 16:55:00
+            @funcName : isLeapYear
+            @function : 判断一个日期中的年份是否是闰年
+            @params :
+                1. 日期(Date)对象
+            @return :
+                true : 说明日期对象中的年份是闰年
+                false : 说明日期对象中的年份不是闰年
+        */
+        function isLeapYear(date){
+            var y = date.getFullYear();
+            // 闰年规则: 四年一闰,百年不闰,四百年再闰
+            if((y % 4 == 0 && y % 100 != 0) || y % 400 == 0){
+                return true;
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var now = new Date();
+            var later = new Date(2017, 3, 30);
+            var res = getDeltaDays(now, later);
+            console.log(res);
+        };
+
+        // 定义一个一天毫秒数的常量
+        var MS_OF_ONE_DAY = 24*60*60*1000;
+        function getDeltaDays(date1, date2){
+
+            // var delta = date2.getTime() - date1.getTime();
+            // 上面这行相当于:
+            var delta = date2 - date1;
+
+            return Math.floor(delta / MS_OF_ONE_DAY);
+        }
+    </script>
+</body>
+</html>

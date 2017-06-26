@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{padding: 0;margin: 0;}
+        ul {
+            width: 100px; height: 124px;
+            position: absolute;
+            display : none;
+        }
+        li{
+            list-style: none;
+            width: 100px; height: 30px;
+            border-bottom : 1px dotted black;
+            background: #CCC;
+            line-height: 30px;
+            text-align: center;
+        }
+        li:hover {
+            background: pink;
+        }
+
+    </style>
+</head>
+<body>
+    <ul id="myUl">
+        <li>登录</li>
+        <li>详情</li>
+        <li>注销</li>
+        <li>退出</li>
+    </ul>
+    <script>
+        window.onload = function (){
+            document.oncontextmenu = function (e){
+                var evt = e || window.event;
+
+                // 获取鼠标在页面上的位置
+                var x = evt.pageX;
+                var y = evt.pageY;
+
+                $('#myUl').style.display = "block";
+                // 将ul定位到鼠标位置
+                $('#myUl').style.left = x + "px";
+                $('#myUl').style.top = y + "px";
+
+                // 将默认响应阻止掉
+                return false;
+            };
+            document.onclick = function (){
+                $('#myUl').style.display = "none";
+            };
+        };
+
+        function $(selector, root){
+            if(!root){
+                root = document;
+            }
+            var starter = selector.charAt(0); // 获取选择器的第一个字符
+            if(starter == "#"){
+                return document.getElementById(selector.substring(1));
+            } else if(starter == "."){
+                return root.getElementsByClassName(selector.substring(1));
+            } else {
+                return root.getElementsByTagName(selector);
+            }
+        }
+    </script>
+</body>
+</html>

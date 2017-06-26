@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="text" id="inp">
+    <input type="button" id="btn" value="百度一下">
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var inp = document.getElementById('inp');
+            var str = inp.value;
+
+            var url = "http://www.baidu.com/s?wd=" + str;
+            location.href = url;
+        };
+    </script>
+</body>
+</html>

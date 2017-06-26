@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>test</title>
+        <style>
+        </style>
+    </head>
+    <body>
+        <input type="text" class="abc cde bbb" />
+        <input type="text" class="abc" />
+        <div class="abc">11</div>
+        <input type="button" id="btn" value="测试">
+        <script type="text/javascript">
+            window.onload = function (){
+                var btn = document.getElementById('btn');
+                btn.onclick = function (){
+                    var res = getByClassName("abc");
+                    console.log(res);
+                };
+            }
+
+            function getByClassName(classStr){
+                // 获取到所有的标签
+                var allEles = document.getElementsByTagName("*");
+
+                var result = [];
+                // 根据class属性值过滤
+                for(var i = 0; i < allEles.length; i++){
+                    // var className = allEles[i].getAttribute('class');
+                    // if(!className){
+                    //     className = "";
+                    // }
+
+                    var className = allEles[i].className;
+                    // 这个地方不能用indexOf去检测, 由于indexOf只是单纯地子串检测
+                    // if(className.indexOf(classStr) != -1){}
+                    // 将class属性值用空格隔开, 得到一个数组
+                    var allClass = className.split(" "); // ["abc", "cde", "bbb"]
+                    // 然后比对这个数组中所有的类, 看看是否和参数指定的一样
+                    for(var j = 0; j < allClass.length; j++){
+                        if(allClass[j] == classStr){
+                            result.push(allEles[i]);
+                        }
+                    }
+                }
+
+                // 将结果数组返回
+                return result;
+            }
+
+        </script>
+    </body>
+</html>

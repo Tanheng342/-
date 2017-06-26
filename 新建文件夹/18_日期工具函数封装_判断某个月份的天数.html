@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body>
+    <input type="button" id="btn" value="测试" >
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function (){
+            var now = new Date();
+            var res = getDayCount(now);
+            console.log(res);
+            console.log(now);
+        };
+
+        function getDayCount(date){
+            // 定义一个一天毫秒数的常量
+            var dMs = 24*60*60*1000;
+            // 获取到日期对象中时间的毫秒表示
+            var now = date.getTime();
+            // 重新生成一个同样时间的date对象
+            var newdate = new Date(date.getTime());
+            // 将日期对象中的月份加1
+            newdate.setMonth(date.getMonth() + 1);
+            // 获取到一个月之后的毫秒表示
+            var later = newdate.getTime();
+
+            return (later - now) / dMs;
+        }
+    </script>
+</body>
+</html>

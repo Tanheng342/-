@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="button"  id="btn" value="下一页"/>
+		<ul id="myul"></ul>
+		
+	</body>
+	<script src="ajax.js"></script>
+	<script>
+		var btn = document.getElementById('btn')
+		var dete = null;
+		var frist=0;
+		var last = 3;
+		btn.onclick =function(){
+			ajax(
+				"GET",
+				"jsonNews.json",
+				{},
+				function (date){
+					dete = JSON.parse(date)
+                     scich(dete)
+				}
+			)
+		}
+		function scich(dete ){
+			var ul = document.getElementById('myul');
+			 ul.innerHTML =null; 
+			for(var i = frist; i<=last;i++){
+			   var li = document.createElement("li")
+				li.innerHTML += dete[i].index+" "+dete[i].title
+				 
+                  ul.appendChild(li);
+			}
+			
+			frist+=4;
+			last+=4;
+			if(last>=dete.length){
+				last=dete.length-1
+			}
+			if(frist>=dete.length){
+				frist=0;
+				last=3;
+			}
+		}
+	</script>
+</html>
